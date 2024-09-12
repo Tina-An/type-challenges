@@ -138,8 +138,6 @@ pnpm generate -K
 - [psmyrdek/typescript-challenges](https://github.com/psmyrdek/typescript-challenges)
 - [andnp/SimplyTyped](https://github.com/andnp/SimplyTyped)
 
-![Contributors](https://contrib.rocks/image?repo=type-challenges/type-challenges)
-
 ## 使用的协议
 
 MIT
