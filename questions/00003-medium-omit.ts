@@ -29,8 +29,20 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type Exclude<T, K> = T extends K ? never : T;
 
-type MyOmit<T, K> = any
+// ok
+type MyOmit<T, K extends keyof T> = {
+  [P in keyof T as P extends K ? never : P] : T[P];
+}
+
+// ok
+// type MyOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+// 写法3会使测试3报错--不知道为什么？
+// type MyOmit<T, K extends keyof T> = {
+//   [P in Exclude<keyof T, K>] : T[P];
+// }
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
