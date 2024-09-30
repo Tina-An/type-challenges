@@ -19,8 +19,12 @@
 */
 
 /* _____________ 你的代码 _____________ */
+// type T = readonly any[];
+// type t = T[keyof T];
 
-type TupleToObject<T extends readonly any[]> = any
+type TupleToObject<T extends readonly (string | number | symbol)[]> = {
+  [P in T[number]]: P;
+}
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
