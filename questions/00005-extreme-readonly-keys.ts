@@ -24,7 +24,28 @@
 
 /* _____________ 你的代码 _____________ */
 
-type GetReadonlyKeys<T> = any
+type GetReadonlyKeys<T> = {
+  [K in keyof T]-? : Equal<{[r in K]: T[r]}, {-readonly[r in K]: T[r]}> extends true ? never : K
+}[keyof T]
+
+type C = GetReadonlyKeys<B>;
+
+type B = {
+  a?: boolean;
+}
+
+type GetKeys1<T> = [keyof T];
+type K1 = GetKeys1<B>; // ["a"]
+
+type GetKeys2<T> = {
+  [K in keyof T]-? : K
+};
+type K2 = GetKeys2<B>; // { a?: "a" | undefined; }
+
+type GetKeys3<T> = {
+  [K in keyof T] : K
+}[keyof T];
+type K3 = GetKeys3<B>; // "a" | undefined
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

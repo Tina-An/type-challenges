@@ -45,8 +45,15 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type GetComputed<C> = {
+  [K in keyof C]: C[K] extends () => infer R ? R : never;
+}
 
-declare function SimpleVue(options: any): any
+declare function SimpleVue<D, C, M>(options: {
+  data: (this: void) => D,
+  computed: C & ThisType<D & M & GetComputed<C>>,
+  methods: M & ThisType<D & M & GetComputed<C>>
+} ): any
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
