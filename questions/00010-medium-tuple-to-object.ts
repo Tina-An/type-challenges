@@ -20,7 +20,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type TupleToUnion<T> = any
+type TupleToUnion<T> = T extends [infer First, ...infer Rest] ? First | TupleToUnion<Rest> : never;
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
