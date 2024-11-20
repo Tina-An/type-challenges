@@ -22,8 +22,13 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type PromiseAllReturn<T extends any[]> = {
+  [P in keyof T]: T[P] extends Promise<infer R> ? R : T[P]
+}
 
-declare function PromiseAll(values: any): any
+// declare function PromiseAll<T extends any[]>(values: readonly [...T]): PromiseAllReturn<T>
+declare function PromiseAll<T extends any[]>(values: readonly [...T]):
+  Promise<{ [K in keyof T]: T[K] extends Promise<infer R> ? R : T[K] extends number ? T[K] : number }>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -31,12 +36,14 @@ import type { Equal, Expect } from '@type-challenges/utils'
 const promiseAllTest1 = PromiseAll([1, 2, 3] as const)
 const promiseAllTest2 = PromiseAll([1, 2, Promise.resolve(3)] as const)
 const promiseAllTest3 = PromiseAll([1, 2, Promise.resolve(3)])
-const promiseAllTest4 = PromiseAll<Array<number | Promise<number>>>([1, 2, 3])
+const promiseAllTest31 = PromiseAll([1, 2, Promise.resolve('3')])
+const promiseAllTest4 = PromiseAll<Array<number | Promise<string>>>([1, 2, 3])
 
 type cases = [
   Expect<Equal<typeof promiseAllTest1, Promise<[1, 2, 3]>>>,
   Expect<Equal<typeof promiseAllTest2, Promise<[1, 2, number]>>>,
   Expect<Equal<typeof promiseAllTest3, Promise<[number, number, number]>>>,
+  Expect<Equal<typeof promiseAllTest31, Promise<[number, number, string]>>>,
   Expect<Equal<typeof promiseAllTest4, Promise<number[]>>>,
 ]
 
