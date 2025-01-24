@@ -22,9 +22,9 @@
 */
 
 /* _____________ 你的代码 _____________ */
-type PromiseAllReturn<T extends any[]> = {
-  [P in keyof T]: T[P] extends Promise<infer R> ? R : T[P]
-}
+// type PromiseAllReturn<T extends any[]> = {
+//   [P in keyof T]: T[P] extends Promise<infer R> ? R : T[P]
+// }
 
 // declare function PromiseAll<T extends any[]>(values: readonly [...T]): PromiseAllReturn<T>
 declare function PromiseAll<T extends any[]>(values: readonly [...T]):
