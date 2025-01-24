@@ -17,8 +17,33 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type Sample<T> = {
+  [K in keyof T]: T[K]
+}
+type Required<T> = {
+  [K in keyof T]-?: T[K]
+}
+type test = "b2" extends ("boo" | 'b2') ? "boo" : never;
 
-type GetRequired<T> = any
+type a = number | undefined
+type test0 = a extends number ? "boo" : never;
+type test1<T> = T extends number ? T : never;
+type t2 = test1<a>
+const a1:a = 1
+const a2:a = undefined
+
+
+type GetRequired<T> = 
+{
+  [K in keyof T as T[K] extends Required<T>[K] ? K : never]: T[K];
+}
+// { foo: number; bar: number; }
+// { foo: number; bar?: number | undefined; }
+type t = { foo: number, bar?: number }
+type s1 = Sample<t>['bar']
+type t1 = GetRequired<t>
+type r1 = Required<t>['bar']
+type z1 = s1 extends r1 ? 'yes': never
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
