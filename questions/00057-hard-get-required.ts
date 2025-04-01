@@ -26,7 +26,7 @@ type Required<T> = {
 type test = "b2" extends ("boo" | 'b2') ? "boo" : never;
 
 type a = number | undefined
-type test0 = a extends number ? "boo" : never;
+type test0 = a extends number ? a : never;
 type test1<T> = T extends number ? T : never;
 type t2 = test1<a>
 const a1:a = 1
