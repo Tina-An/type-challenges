@@ -12,7 +12,11 @@
 
 /* _____________ 你的代码 _____________ */
 
-type OptionalKeys<T> = any
+
+type OptionalKeys<T> = keyof {
+  [K in keyof T as T[K] extends {[P in keyof T]-?: T[P]}[K] ? never : K ]: K
+}
+type t1 = OptionalKeys<{ a: undefined, b?: undefined, c?: string, d?: null }>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

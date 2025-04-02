@@ -18,8 +18,21 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type Keys<T> = {
+  [K in keyof T]: K
+}
+type t1 = Keys<{ a: number, b?: string }>
 
-type RequiredKeys<T> = any
+type AllKeys<T> = { [K in keyof T]-?: K }
+type t2 = AllKeys<{ a: number, b?: string }>
+// type RequiredKeys<T> = keyof {
+//   [K in keyof T as Keys<T>[K] extends AllKeys<T>[K] ? K : never]: K
+// }
+type t3 = RequiredKeys<{ a: number, b?: string }>
+
+type RequiredKeys<T> = keyof {
+  [K in keyof T as { [P in keyof T]: P }[K] extends { [P in keyof T]-?: P }[K] ? K : never]: K
+}
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
