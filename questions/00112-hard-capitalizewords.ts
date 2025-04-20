@@ -17,8 +17,16 @@
 */
 
 /* _____________ 你的代码 _____________ */
+type Capitalize<S extends string> = S extends `${infer F}${infer Last}`
+  ? `${Uppercase<F>}${Last}`
+  : S
 
-type CapitalizeWords<S extends string> = any
+type CapitalizeWords<S extends string, Pre extends string = ''> = S extends `${infer F}${infer R}`
+  ? Uppercase<F> extends Lowercase<F>
+    ? `${Capitalize<Pre>}${F}${CapitalizeWords<R, ''>}`
+    : CapitalizeWords<R, `${Pre}${F}`>
+  : `${Capitalize<Pre>}${Capitalize<S>}`
+
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
