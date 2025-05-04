@@ -19,7 +19,35 @@
 
 /* _____________ 你的代码 _____________ */
 
-type CamelCase<S extends string> = any
+type Test<S extends string> = S extends `${infer First}${infer Last}`
+  ? `${First}+${Last}`
+  : `${S}:empty`
+
+type test1 = Test<'foobar'> // 'f+oobar' First: 'f', Last: 'oobar'
+type test2 = Test<'a'> // 'a+' Fisrt: 'a', Last: ''
+type test3 = Test<''> // ':empty' Fisrt,Last并未被推断出，会走否定分支
+
+type CapitalizeWord<S extends string> = S extends `${infer F}${infer Last}`
+  ? `${Uppercase<F>}${Lowercase<Last>}`
+  : ''
+
+type CamelCaseItem<S extends string, B extends boolean> = S extends `\$${infer Last}`
+  ? `_${Lowercase<S>}`
+  : B extends true
+    ? Lowercase<S>
+    : CapitalizeWord<S>
+
+type CamelCase<S extends string, B extends boolean = true> = S extends `${infer F}_${infer Last}`
+  ? F extends ''
+    ? Uppercase<Last> extends Lowercase<Last>
+      ? `_${Last}`
+      : `_${CamelCase<Last, B>}`
+    : Uppercase<Last> extends Lowercase<Last>
+      ? `${CamelCaseItem<F, B>}_${Last}`
+      : `${CamelCaseItem<F, B>}${CamelCase<Last, false>}`
+  : CamelCaseItem<S, B>
+
+type t1 = CamelCase<'HELLO_WORLD_WITH_TYPES'>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
