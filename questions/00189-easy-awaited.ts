@@ -22,7 +22,11 @@
 
 /* _____________ 你的代码 _____________ */
 
-type MyAwaited<T> = any
+type MyAwaited<T extends { then: (args: (args: any) => any) => any }> = T extends { then: (args: (args: infer R) => any) => any }
+  ? R extends { then: (args: (args: any) => any) => any }
+    ? MyAwaited<R>
+    : R
+  : never
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
