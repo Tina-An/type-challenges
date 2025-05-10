@@ -1,9 +1,9 @@
 /*
   147 - C-printf Parser
   -------
-  by Pig Fang (@g-plane) #困难 #template-literal
+  by Pig Fang (@g-plane) #hard #template-literal
 
-  ### 题目
+  ### Question
 
   There is a function in C language: `printf`. This function allows us to print something with formatting. Like this:
 
@@ -27,10 +27,10 @@
   }
   ```
 
-  > 在 Github 上查看：https://tsch.js.org/147/zh-CN
+  > View on GitHub: https://tsch.js.org/147
 */
 
-/* _____________ 你的代码 _____________ */
+/* _____________ Your Code Here _____________ */
 
 type ControlsMap = {
   c: 'char'
@@ -42,9 +42,13 @@ type ControlsMap = {
   p: 'pointer'
 }
 
-type ParsePrintFormat = any
+type ParsePrintFormat<S extends string> = S extends `${infer L}%${infer M}${infer R}`
+  ? M extends keyof ControlsMap
+      ? [ControlsMap[M], ...ParsePrintFormat<R>]
+      : ParsePrintFormat<R>
+  : []
 
-/* _____________ 测试用例 _____________ */
+/* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
@@ -60,9 +64,9 @@ type cases = [
   Expect<Equal<ParsePrintFormat<'The result is %'>, []>>,
 ]
 
-/* _____________ 下一步 _____________ */
+/* _____________ Further Steps _____________ */
 /*
-  > 分享你的解答：https://tsch.js.org/147/answer/zh-CN
-  > 查看解答：https://tsch.js.org/147/solutions
-  > 更多题目：https://tsch.js.org/zh-CN
+  > Share your solutions: https://tsch.js.org/147/answer
+  > View solutions: https://tsch.js.org/147/solutions
+  > More Challenges: https://tsch.js.org
 */
