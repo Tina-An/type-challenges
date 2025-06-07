@@ -7,7 +7,7 @@
 
   [Currying](https://en.wikipedia.org/wiki/Currying) 是一种将带有多个参数的函数转换为每个带有一个参数的函数序列的技术。
 
-  但是在前端的日常开发中，柯里化函数参数个数动态化却是非常常见的，例如 `Function.bind(this,https://github.com/Tina-An/type-challenges/edit/main/questions/00462-extreme-currying-2.ts [...params])`
+  但是在前端的日常开发中，柯里化函数参数个数动态化却是非常常见的，例如 `Function.bind(this, [...params])`
 
   ```ts
   const func = (a: number, b: number, c: number) => {
@@ -45,6 +45,11 @@ type GetArgs<Args extends any[], Used extends any[] = []> =
   : [...Used, Args[Used['length']]] | GetArgs<Args, [...Used, Args[Used['length']]]>
 
 type t1 = GetArgs<[string, number, boolean]>
+
+type GetReturn<Fn extends Function, Used extends any[] = []> = 
+  Fn extends (...args: infer Args) => infer Return
+  ? 
+  : never
 
 declare function DynamicParamsCurrying(fn: any): any
 
