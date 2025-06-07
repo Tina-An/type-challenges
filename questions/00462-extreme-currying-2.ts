@@ -53,7 +53,7 @@ type GetReturn<Fn extends Function, Used extends any[] = []> =
     : Return
   : never
 
-declare function DynamicParamsCurrying(fn: any): any
+declare function DynamicParamsCurrying<Fn extends Function>(fn: Fn): GetReturn<Fn>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -104,4 +104,3 @@ type cases = [
   > 查看解答：https://tsch.js.org/462/solutions
   > 更多题目：https://tsch.js.org/zh-CN
 */
-
