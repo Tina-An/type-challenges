@@ -48,7 +48,9 @@ type t1 = GetArgs<[string, number, boolean]>
 
 type GetReturn<Fn extends Function, Used extends any[] = []> = 
   Fn extends (...args: infer Args) => infer Return
-  ? 
+  ? Args extends [...Used, ...infer Rest]
+    ? (...arg: GetArgs<Rest>) => GetReturn<Fn, [...Used, ...(typeof arg)]>
+    : Return
   : never
 
 declare function DynamicParamsCurrying(fn: any): any
