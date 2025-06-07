@@ -39,25 +39,28 @@
 */
 
 /* _____________ 你的代码 _____________ */
-type GetArgs<Args extends any[], Used extends any[] = []> = 
-  [...Used, 1]['length'] extends Args['length']
-  ? Args
-  : [...Used, Args[Used['length']]] | GetArgs<Args, [...Used, Args[Used['length']]]>
-
-type t1 = GetArgs<[string, number, boolean]>
-
-type GetReturn<Fn extends Function, Used extends any[] = []> = 
-  Fn extends (...args: infer Args) => infer Return
-  ? Args extends [...Used, ...infer Rest]
-    ? (...arg: GetArgs<Rest>) => GetReturn<Fn, [...Used, ...(typeof arg)]>
-    : Return
+// 这里关键需要理解的地方是：
+// Prefix是某个函数参数列表中前缀参数类型
+// 动态规划的思想是，第i个参数，是否作为某个函数参数列表中的最后一个参数的类型
+// 当i是最后一个参数时，后面继续柯里化的函数中，就没有该类型以及之前的类型。
+// 当i不做为最后一个参数时，后面继续柯里化的函数中，必定将该类型，作为前缀类型。
+// 例如Args = [string, number, boolean]时，
+// 第一步：((arg: string) => Curry<[number, boolean], R>) & Curry<[number, boolean], R, [string]>
+type Curry<Args, Return, Prefix extends any[] = []> = 
+  Args extends [infer First, ...infer Rest]
+  ? Rest extends []
+    ? (...args: [...Prefix, First]) => Return
+    : ((...args: [...Prefix, First]) => Curry<Rest, Return>) & Curry<Rest, Return, [...Prefix, First]>
   : never
 
-declare function DynamicParamsCurrying<Fn extends Function>(fn: Fn): GetReturn<Fn>
+type t1 = Curry<[string, number], true>
+
+declare function DynamicParamsCurrying<Args extends any[], Return>(fn: (...args: Args) => Return): Curry<Args, Return>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
+const curried0 = DynamicParamsCurrying((a: string) => true)
 const curried1 = DynamicParamsCurrying((a: string, b: number, c: boolean) => true)
 const curried2 = DynamicParamsCurrying((a: string, b: number, c: boolean, d: boolean, e: boolean, f: string, g: boolean) => true)
 
