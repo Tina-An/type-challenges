@@ -20,8 +20,8 @@
 type FilterOut<T extends any[], F, 
   R extends any[] = [], 
   E extends any[] = [], 
-  L extends number = [...R, ...E]['length']> = 
-  L extends T['length']
+  L extends number = [...R, ...E]['length']
+> = L extends T['length']
     ? R
     : T[L] extends F
         ? FilterOut<T,F,R,[...E,T[L]]>
@@ -45,4 +45,3 @@ type cases = [
   > View solutions: https://tsch.js.org/399/solutions
   > More Challenges: https://tsch.js.org
 */
-
