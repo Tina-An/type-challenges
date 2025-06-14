@@ -27,6 +27,7 @@
 // 思路是, 假设A: 432, B: 52
 // 2*52 + 30*52 + 400*52，也就是
 // 2*52 + 3*520 + 4*5200
+// 52 + 52 + 520 + 520 + 520 + 5200 + 5200 + 5200 + 5200
 // 加和的次数为，A的每一位数字加和，假设每位数字都是9，位数至少可以为111，可以满足题意，
 // 而不超出extends嵌套层次
 
@@ -35,7 +36,6 @@ type Reverse<A extends string | number | bigint> =
   ? `${Reverse<R>}${F}`
   : ''
 
-type Digs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 type DigsNext = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 type DigsPre = [9, 0, 1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -98,4 +98,3 @@ type cases = [
   > View solutions: https://tsch.js.org/517/solutions
   > More Challenges: https://tsch.js.org
 */
-
