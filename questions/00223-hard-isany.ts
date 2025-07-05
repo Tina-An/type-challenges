@@ -14,9 +14,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsAny<T> = ('1' | '0') extends (T extends string ? '1' : '0')
-  ? true
-  : false
+type IsAny<T> = 0 extends (1 & T) ? true : false
 
 // any类型变量可以赋值给任何类型，unknown类型变量只能赋值给any或unknown类型
 type t1 = any extends string ? '1' : '0'       // '1' | '0'
