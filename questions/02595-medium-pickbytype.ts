@@ -25,14 +25,22 @@
 type a1 = never extends number ? '1' : '0'; // '1'
 type a2 = never extends never ? '1': '0'
 type a3 = string extends never ? 1 : 0 // 0
+type a4 = boolean extends boolean ? '1' : '0'
 
 type PickByType<T, U> = { 
   [K in keyof T as 
     [U] extends [T[K]]
-      ? [T[K]] extends [U] ? K : never
+      ? T[K] extends U ? K : never
       : never]
   :T[K]
 }
+
+//   [K in keyof T as 
+//     T[K] extends U
+//       ? [U] extends [T[K]] ? K : never
+//       : never]
+//   :T[K]
+// }
 
 // {
 //   [K in keyof T as T[K] extends U ? ([T[K]] extends [never] ? never : K) : never]: T[K];
@@ -51,6 +59,7 @@ interface Model {
 
 type t1 = PickByType<Model, string> // { name: string; }
 type t2 = PickByType<Model, never> // { isNerver: never; }
+type t3 = PickByType<Model, boolean>
 
 type cases = [
   Expect<Equal<PickByType<Model, boolean>, { isReadonly: boolean, isEnable: boolean }>>,
