@@ -39,32 +39,3 @@
 <a href="https://tsch.js.org/2059/play/zh-CN" target="_blank"><img src="https://img.shields.io/badge/-2059%E3%83%BBDrop%20String-de3d37" alt="2059・Drop String" /></a><br>
 <a href="https://tsch.js.org/2257/play/zh-CN" target="_blank"><img src="https://img.shields.io/badge/-2257%E3%83%BBMinusOne-d9901a" alt="2257・MinusOne" /></a><br>
 <a href="https://tsch.js.org/2595/play/zh-CN" target="_blank"><img src="https://img.shields.io/badge/-2595%E3%83%BBPickByType-d9901a" alt="2595・PickByType" /></a><br>
-
-112
-17
-16
-55
-20
-57
-59
-43
-62
-89
-90
-106
-108
-9616
-151
-116
-119
-147
-1367
-7258
-1042
-1097
-1130
-1367
-1978
-2059
-2257
-2595
